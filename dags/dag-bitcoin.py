@@ -7,7 +7,6 @@ from airflow.decorators import dag
 from astro import sql as aql
 import pandas as pd
 import pendulum
-
 import requests
 import pandas as pd
 import json
