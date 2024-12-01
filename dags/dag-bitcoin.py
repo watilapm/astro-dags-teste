@@ -20,7 +20,7 @@ def python_1_func():
     
     
     context = get_current_context()
-    start_date = context['dag'].start_date
+    start_date = context['dag_run'].execution_date
     print(f"DAG start date: {start_date}")
     
     
