@@ -11,7 +11,7 @@ import pendulum
 
 @aql.dataframe(task_id="python_1")
 def python_1_func():
-    print("teste 3")
+    print("teste meu teste")
 
 default_args={
     "owner": "Alex Lopes,Open in Cloud IDE",
@@ -24,7 +24,7 @@ default_args={
     catchup=False,
     owner_links={
         "Alex Lopes": "mailto:alexlopespereira@gmail.com",
-        "Open in Cloud IDE": "https://cloud.astronomer.io/cm3webulw15k701npm2uhu77t/cloud-ide/cm461jznr116x01o6vwtkdo85/cm461mi04117c01o6lsnb50yg",
+        "Open in Cloud IDE": "https://cloud.astronomer.io/cm3webulw15k701npm2uhu77t/cloud-ide/cm4622cx8119f01o6yff4mw3e/cm4624p0u119o01o6a94igj5f",
     },
 )
 def Teste():
