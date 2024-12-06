@@ -12,6 +12,53 @@ import pendulum
 @aql.dataframe(task_id="python_1")
 def python_1_func():
     print("teste meu teste 2")
+    from airflow.operators.python import get_current_context
+        
+        
+    context = get_current_context()
+    start_date = context['dag_run'].execution_date
+    print(f"DAG start date: {start_date}")
+    
+    
+    # Define the time range for yesterday
+    end_time = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    start_time = end_time - timedelta(days=1)
+    
+    # Convert to Unix timestamps in milliseconds
+    start_timestamp = int(start_time.timestamp() * 1000)
+    end_timestamp = int(end_time.timestamp() * 1000)
+    
+    # CoinCap API endpoint for Bitcoin historical data
+    url = 'https://api.coincap.io/v2/assets/bitcoin/history'
+    
+    # Parameters for the API request
+    params = {
+        'interval': 'h1',  # Hourly data
+        'start': start_timestamp,
+        'end': end_timestamp
+    }
+    
+    # Make the API request
+    response = requests.get(url, params=params)
+    data = response.json()
+    
+    # Check if data is available
+    if 'data' in data:
+        # Convert data to pandas DataFrame
+        df = pd.DataFrame(data['data'])
+        # Convert time column to datetime
+        df['time'] = pd.to_datetime(df['time'], unit='ms')
+        # Set time as index
+        df.set_index('time', inplace=True)
+        # Display the DataFrame
+        print(df)
+    else:
+        print("No data available for the specified date range.")
+    
+    #### Load
+    pg_hook = PostgresHook(postgres_conn_id='postgres')
+    engine = pg_hook.get_sqlalchemy_engine()
+    df.to_sql('bitcoin_history', con=engine, if_exists='append', index=False)
 
 default_args={
     "owner": "Alex Lopes,Open in Cloud IDE",
