@@ -11,7 +11,9 @@ import pendulum
 
 @aql.dataframe(task_id="python_1")
 def python_1_func():
-    print()
+    import pandas as pd
+    print("teste 444")
+    
 
 default_args={
     "owner": "Alex Lopes,Open in Cloud IDE",
