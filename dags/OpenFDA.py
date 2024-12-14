@@ -33,7 +33,7 @@ def fetch_openfda_data(ds, ti, **context):
         df['time'] = pd.to_datetime(df['time'])
         # Group by week and sum the count column
         weekly_sum = df.groupby(pd.Grouper(key='time', freq='W'))['count'].sum().reset_index()
-        weekly_sum.loc[:,"time"] = weekly_sum.loc[:,"time"].astype(str)
+        weekly_sum["time"] = weekly_sum["time"].astype(str)
         print(weekly_sum.info())
         print(weekly_sum.head())
     else:
