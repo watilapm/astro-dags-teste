@@ -71,7 +71,7 @@ dag = DAG(
     default_args=default_args,
     description='Retrieve OpenFDA data monthly',
     schedule_interval='@monthly',
-    start_date=datetime(2020, 1, 1),
+    start_date=datetime(2024, 11, 1),
     catchup=True,
     max_active_tasks=1
 )
