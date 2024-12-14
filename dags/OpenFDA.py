@@ -17,7 +17,7 @@ def generate_query_url(year, month):
     return query
 
 # Function to fetch data from the API and save it to XCom
-def fetch_openfda_data():
+def fetch_openfda_data(ds, ti, **context):
     from airflow.operators.python import get_current_context
     context = get_current_context()
     execution_date = context['dag_run'].execution_date
@@ -38,13 +38,12 @@ def fetch_openfda_data():
         df = pd.DataFrame([])  # Return empty DataFrame if request fails
 
     # Push the DataFrame to XCom
-    kwargs['ti'].xcom_push(key='openfda_data', value=df.to_dict())
+    ti.xcom_push(key='openfda_data', value=df.to_dict())
 
-def save_to_postgresql(**kwargs):
+def save_to_postgresql(ds, ti, **context):
     from airflow.providers.postgres.hooks.postgres import PostgresHook
 
     # Retrieve the DataFrame from XCom
-    ti = kwargs['ti']
     data_dict = ti.xcom_pull(task_ids='fetch_openfda_data', key='openfda_data')
 
     if data_dict:
