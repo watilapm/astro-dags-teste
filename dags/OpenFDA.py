@@ -33,12 +33,13 @@ def fetch_openfda_data(ds, ti, **context):
         df['time'] = pd.to_datetime(df['time'])
         # Group by week and sum the count column
         weekly_sum = df.groupby(pd.Grouper(key='time', freq='W'))['count'].sum().reset_index()
+        weekly_sum = df.astype(str)
         print(weekly_sum.head())
     else:
-        df = pd.DataFrame([])  # Return empty DataFrame if request fails
+        weekly_sum = pd.DataFrame([])  # Return empty DataFrame if request fails
 
     # Push the DataFrame to XCom
-    ti.xcom_push(key='openfda_data', value=df.to_dict())
+    ti.xcom_push(key='openfda_data', value=weekly_sum.to_dict())
 
 def save_to_postgresql(ds, ti, **context):
     from airflow.providers.postgres.hooks.postgres import PostgresHook
