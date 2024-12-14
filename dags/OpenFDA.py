@@ -72,6 +72,7 @@ dag = DAG(
     schedule_interval='@monthly',
     start_date=datetime(2020, 1, 1),
     catchup=True,
+    max_active_tasks=5
 )
 
 
