@@ -34,6 +34,7 @@ def fetch_openfda_data(ds, ti, **context):
         # Group by week and sum the count column
         weekly_sum = df.groupby(pd.Grouper(key='time', freq='W'))['count'].sum().reset_index()
         weekly_sum.loc[:,"time"] = weekly_sum.loc[:,"time"].astype(str)
+        print(weekly_sum.info())
         print(weekly_sum.head())
     else:
         weekly_sum = pd.DataFrame([])  # Return empty DataFrame if request fails
@@ -72,7 +73,7 @@ dag = DAG(
     schedule_interval='@monthly',
     start_date=datetime(2020, 1, 1),
     catchup=True,
-    max_active_tasks=5
+    max_active_tasks=1
 )
 
 
